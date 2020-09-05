@@ -76,7 +76,11 @@ tests({
   'It should search deeper into the proto-chain and check if an object exists in another objects prototypes prototype. ': function() {
     var result = isPrototypeOf(Object.prototype, myDog);
     eq(result, true);
-    }
+    },
+  'It should return a boolen': function(){
+    var result = isPrototypeOf(dog, myDog);
+    eq(typeof result === "boolean", true);
+   }
 
 })
 </script>
