@@ -1,0 +1,2 @@
+# isPrototypeOf-function-
+isPrototypeOf exercise 
