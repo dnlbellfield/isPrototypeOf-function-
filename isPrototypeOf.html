@@ -1,0 +1,82 @@
+<script src="/Users/johnbellfield/Documents/Coding Files/2020 WAC Accounting JS BEASTS/isPrototypeOf/simpletest.js"></script>
+<script>
+  
+  var canine = {
+  bark: function() {
+    console.log('bark');
+  }
+};
+
+var dog = Object.create(canine);
+dog.fetch = function() {
+  console.log('fetch');
+};
+
+var myDog = Object.create(dog);
+var empty = Object.create(null);
+
+
+
+// no recurion version
+// function isPrototypeOf(prototype, objectToCheck) {
+    
+//     var objectToChecksPrototype = objectToCheck.__proto__;
+//     if (objectToChecksPrototype === undefined) {
+//       return false;
+//     }
+//     console.log('objectToChecksPrototype :', objectToChecksPrototype)
+//     console.log('prototype :', prototype);
+//     console.log('objectToCheck', objectToCheck);
+
+//     if (objectToChecksPrototype === prototype) {
+//       return true;
+//     } else {
+//       // objectToChecksPrototype = objectToCheck.__proto__;
+//        var nextLevelObjectToChecksPrototype = objectToChecksPrototype.__proto__;
+//      if  (nextLevelObjectToChecksPrototype === prototype) {
+//         return true;
+//       } else {
+//         var nextLevelObjectToChecksPrototype = nextLevelObjectToChecksPrototype.__proto__;
+//           if  (nextLevelObjectToChecksPrototype === prototype) {
+//           return true;
+//           }
+//       }
+//     }
+
+    
+// }
+
+// recursive function with Object.getPrototypeOf
+function isPrototypeOf(prototype, objectToCheck) {
+    
+    var objectToChecksPrototype = Object.getPrototypeOf(objectToCheck);
+    if (objectToChecksPrototype === undefined || objectToChecksPrototype === null) {
+      return false;
+    }
+   
+    if (objectToChecksPrototype === prototype) {
+      return true;
+    } else {
+    
+      return isPrototypeOf(prototype, objectToChecksPrototype); 
+    }
+
+    
+}
+
+tests({
+  'It should check if an object exists in another objects prototype chain. ': function(){
+    var result = isPrototypeOf(dog, myDog);
+    eq(result, true);
+  }, 
+  'It should return false if the object does not exists in another objects prototype chain. ': function () {
+    var result = isPrototypeOf(dog, empty);
+    eq(result, false);
+  },
+  'It should search deeper into the proto-chain and check if an object exists in another objects prototypes prototype. ': function() {
+    var result = isPrototypeOf(Object.prototype, myDog);
+    eq(result, true);
+    }
+
+})
+</script>
